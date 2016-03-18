@@ -1,0 +1,44 @@
+\documentclass{report}
+
+
+\usepackage{bibgerm}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{algpseudocode,algorithm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{paralist}
+\usepackage{multicol}
+
+\geometry{verbose,a4paper,tmargin=25mm,bmargin=25mm,lmargin=15mm,rmargin=20mm}
+
+%% Stuff ist aus ML1. vllt brauchen wir es ja noch :D
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\IndState}[1][1]{\State\hspace{10mm}}
+\newcommand{\mparagraph}[1]{\paragraph{#1} \mbox{}\\}
+
+%%%%%%%%%%%%%% includeonly %%%%%%%%%%%%%%%%%%%
+% Es werden nur die Teile eingebunden, die hier
+% aufgefuehrt sind!
+%\include{Kapitel X}
+%}um es anzuzeigen.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\graphicspath{{pic/}}
+
+\begin{document}
+
+\tableofcontents
+
+
+% einfach !TEX root = rob1.tex an den Anfang packen von chaptern
+\include{01_softwareDev}
+
+
+
+\end{document}
