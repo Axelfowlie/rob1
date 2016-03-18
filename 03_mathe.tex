@@ -1,2 +1,63 @@
 % !TEX root = rob1.tex
 \chapter{Mathematische Grundlagen}
+
+\section{Euklidische 3D Raum}
+\subsection{Basiskoordinatensystem, BKS}
+3-dim. Koordinatensystem. Durch orthogonale Einheitsvektoren $\vec{e}_{X,B}, \vec{e}_{Y,B},
+\vec{e}_{Z,B}$ definiert
+\mparagraph{Rechtsdrehend:} $\vec{e}_{X} \times \vec{e}_{Y} = \vec{e}_{Z},\text{ }\vec{x} \times \vec{y} = \vec{z}$
+\mparagraph{Linksdrehend:} $\vec{e}_{X} \times \vec{e}_{Y} = -\vec{e}_{Z},\text{ }\vec{x} \times \vec{y} = \vec{-z}$
+
+z-Richtung und Drehrichtung mit Hilfe der Rechten Hand Regel (Daumen = z Achse)
+
+\subsection{Definitionen}
+\begin{compactitem}
+    \item \textbf{Ort}: Ortsvektor vom Ursprung des BKS zum Ursprung des OKS
+    \item \textbf{Orientierung}: Rotationsmatrix zur Abbildung der Einheitsvektoren des OKS auf die
+    Einheitsvektoren des BKS
+    \item \textbf{Lage}: Ortsvektor und Rotationsmatrx des OKS bezogen auf das BKS.
+    $\vec{v} = (x,y,z,\alpha,\beta,\gamma)$
+\end{compactitem}
+
+\subsection{Freiheitsgrad und Bewegungsfreiheitsgrad}
+\begin{compactitem}
+    \item \textbf{Freiheitsgrad f} ist die Anzahl möglicher unabhängiger Bewegungen in Bezug auf
+    das BKS. Minimale Anzahl von Translationen und Rotationen zur vollständigen Beschreibung der Lage des
+    Objektes.
+    \item \textbf{Bewegungsfreiheitsgrad F}: $\sum_{i}^n(F_{R_i} + F_{T_i})$
+    \item F $\geq$ f
+\end{compactitem}
+\newpage
+\section{Orientierungsbeschreibung mit 3x3 Matrix}
+\subsection{Rotationsmatrizen}
+\begin{align}
+    R_x &= \begin{bmatrix} 1 & 0 & 0  \\ 0 &\cos \alpha& -\sin\alpha \\ 0 & \sin\alpha & \cos\alpha \end{bmatrix}\\
+    R_y &= \begin{bmatrix} \cos\alpha & 0 & \sin\alpha  \\ 0 & 1 & 0 \\ -\sin\alpha & 0 & \cos\alpha \end{bmatrix}\\
+    R_z &= \begin{bmatrix} \cos \alpha& -\sin\alpha& 0 \\ 0 \sin\alpha & \cos\alpha & 0 \\ 0 & 0 & 1 \end{bmatrix}
+\end{align}
+
+\subsection{Drehachse}
+\begin{compactitem}
+    \item \textbf{Euler Winkel}: Drehung um jeweils veränderte Achse. Jede Drehung bezieht sich auf
+    das neue Koordinatensystem. Von links nach rechts
+    \item \textbf{Roll, Pitch, Yaw}: Drehung um unveränderte Achse. Jede Drehung bezieht sich auf
+    das BKS. Von rechts nach links
+\end{compactitem}
+
+\section{Homogene 4x4 Matrix}
+\mparagraph{Rotation}
+$R_x$, $R_y$, $R_z$ wie bei 3x3 nur mit $(0,0,0,1)$ Extrazeile
+\mparagraph{Translation}
+\begin{align}
+    T_{\text{trans}} &= \begin{bmatrix}1 & 0 & 0 & 0\\0 & 1 & 0 & 0\\0 & 0 & 1 & 0\\0 & 0 & 0 & 1\end{bmatrix}
+\end{align}
+\mparagraph{Skalierung}
+Lokal und Global
+\begin{align}
+    T_{\text{scale}} &= \begin{pmatrix}a & 0 & 0 & 0\\0 & b & 0 & 0\\
+    0 & 0 & c & 0\\0 & 0 & 0 & 1\end{pmatrix} \begin{pmatrix}x\\y\\z\\1\end{pmatrix} = \begin{pmatrix}ax\\by\\cz\\1\end{pmatrix}
+\end{align}
+\begin{align}
+    T_{\text{scale}} &= \begin{pmatrix}1 & 0 & 0 & 0\\0 & 1 & 0 & 0\\
+    0 & 0 & 1 & 0\\0 & 0 & 0 & s\end{pmatrix} \begin{pmatrix}x\\y\\z\\1\end{pmatrix} = \begin{pmatrix}x\\y\\z\\s\end{pmatrix}
+\end{align}
