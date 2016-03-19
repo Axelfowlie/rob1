@@ -61,3 +61,95 @@ Lokal und Global
     T_{\text{scale}} &= \begin{pmatrix}1 & 0 & 0 & 0\\0 & 1 & 0 & 0\\
     0 & 0 & 1 & 0\\0 & 0 & 0 & s\end{pmatrix} \begin{pmatrix}x\\y\\z\\1\end{pmatrix} = \begin{pmatrix}x\\y\\z\\s\end{pmatrix}
 \end{align}
+\subsection{Lagebeschreibung}
+
+Beschreibung der Lage des Koordinatensystems B relativ zum Koordinatensystem A
+\begin{displaymath}
+    ^AH_B
+\end{displaymath}
+\mparagraph{Transformationsab
+bildung}
+\begin{displaymath}
+    ^AH_B: ^BP \rightarrow ^AP
+\end{displaymath}
+\mparagraph{Transformationsoperator}
+\begin{displaymath}
+    H: ^BP_1 \rightarrow ^AP_2
+\end{displaymath}
+\subsubsection{Verkettung}
+
+\begin{compactitem}
+    \item Lage von Objekt 1 bzgl. BKS: $^\text{BKS}H_1$
+    \item Lage von Objekt 1 bzgl. Objekt 1: $^{o1}H_2$
+    \item Lage von Objekt 1 bzgl. Objekt 2: $^{o2}H_3$
+    \item Lage von Objekt 1 bzgl. BKS: $^\text{BKS}H_3$
+\end{compactitem}
+
+\begin{align}
+     ^\text{BKS}H_3 &= ^\text{BKS}H_1 * ^{o1}H_2 * ^{o2}H_3 \\
+     \text{bzw.} &\prod^n_{i=1}{}^{H_{i-1}}H_i \text{ mit } H_0 = \text{BKS}
+\end{align}
+
+\subsection{Nachteile}
+\begin{compactitem}
+    \item Hohe Redundanz
+    \item Interpolation schwierig
+\end{compactitem}
+
+\section{Quaterionen}
+\textbf{Dienen nur der Rotation, nicht der Translation!}
+\mparagraph{Definition}
+Ein Quaternion hat die Darstellung $q = (a,b,c,d)^T$
+\begin{compactitem}
+    \item $a$ ist der \textbf{Realteil}
+    \item $u = (b,c,d)^T$ ist der \textbf{Imaginärteil}
+\end{compactitem}
+\begin{align}
+    q &= a + bi + cj + dk \\
+    i^2 &= j^2 = k^2 = ijk = -1 \\
+    ij &= -ij = k \\
+    jk &= -kj = i \\
+    ik &= -ki = j
+\end{align}
+\begin{itemize}
+    \item \textbf{Addition}: $q + r = (a_q + a_r, u_q + u_r)$
+    \item \textbf{Punktprodukt/Skalarprodukt}: $q \cdot r = a_qa_r +b_qb_r + c_qc_r + d_qd_r $
+    \item \textbf{Multiplikation}: $q * r = (a_q + ib_q + jc_q + kd_q) * (a_r + i_br + jc_r + kd_r)$
+    \item \textbf{Konjugiertes Quaternion}: $\overline{q} = (a,-u)$
+    \item \textbf{Norm}: $|q| = \sqrt{a^2+b^2+c^2+d^2}$
+    \item \textbf{Multiplikatives Inverses}: $q^{-1} = \frac{q^*}{|q|^2}$
+\end{itemize}
+
+\subsection{Rotation}
+\begin{compactitem}
+    \item Winkel $\Theta$
+    \item Rotationsachse $u$
+    \item zu rotierender Vektor $v$
+\end{compactitem}
+\begin{align}
+    q &= (\frac{\cos\Theta}{2},u\frac{\sin\Theta}{2})\\
+    a &= (0,v)
+\end{align}
+Berechne: $qa\overline{q}$
+\subsection{Vorteile}
+\begin{compactitem}
+    \item Intuitive Darstellung von Rotationen, direkte Angabe von Drehwinkel und Achse
+    \item Kompakte Darstellung
+    \item Rotation um gewünschte Achse
+    \item Numerische Stabilität
+\end{compactitem}
+
+\section{Duale Quaternionen}
+Ersetzung der 4 Reellen werte durch Dualzahlen um Orientierung und Lage zu erhalten.
+\mparagraph{Duale Zahl}
+\begin{displaymath}
+     d = p + \epsilon \cdot s, \text{ wobei }\epsilon^2 = 0
+\end{displaymath}
+mit Primärteil $p$ und Sekundärteil $s$
+\mparagraph{Duales Quaternion}
+\begin{displaymath}
+     \text{DQ} = (d_1,d_2,d_3,d_4) \text{ mit } d_i = dp_i + \epsilon \cdot ds_i
+\end{displaymath}
+Der Reale Skalarteil enthält den Winkelwert $\frac{\Theta}{2}$, der imaginäre Skalarteil die
+Verschiebungsgröße d. \\
+Die restlichen drei Dualzahlen beschreiben eine beliebige gerichtete, normierte Gerade im Raum.
