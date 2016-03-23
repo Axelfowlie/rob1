@@ -168,3 +168,62 @@ $\Rightarrow$ auflösen von Polynomialgleichungen
 \textbf{Geschlossene Methode. Gleichsetzen von TCP Position $T_{\text{TCP}}$ und Transformation
 $S_{\text{Basis,Greifer}}$ aus dem kinematischen Modell.} \\
 $\Rightarrow$ 12 Gleichungen bei homogenen Matrizen in 3D (insg. 16 davon 4 trivial)
+
+\mparagraph{Problem}
+Oft können nicht alle Gelenkwinkel aus den 12 Gleichunge bestimmt werden.
+\mparagraph{Algorithmus zur algebraischen Lösung}
+$T_{\text{TCP}} = A_{0,1}(\Theta_1) \cdot A_{1,2}(\Theta_2) \cdot A_{2,3}(\Theta_3)
+ \cdot A_{3,4}(\Theta_4) \cdot A_{4,5}(\Theta_5) \cdot A_{5,6}(\Theta_6)$
+
+ \begin{compactenum}
+     \item Invertiere $A_{0,1}(\Theta_1)$ und multipliziere beide Seiten der Gleichung mit $A^{-1}_{0,1}$
+     \item Versuche aus dem neu enstehenden Gleichungssystem eine Gleichung zu finden, die nur eine
+     Unbekannte enthält und löse diese Gleichung nach der Unbekannten.
+     \item Versuche eine Gleichung im Gleichungssystem zu finden, die durch die Subsitution im letzten
+     Schritt gefundenen Lösung nach einer Unbekannten lösbar ist.
+     \item Falls keine Lösungen mehr gefunden werden können, su muss eine weitere Matrix invertiert werden.
+     \item Wiederhole die Schritt 1-4 bis alle Gelenkwinkel ermittelt sind
+ \end{compactenum}
+
+\subsection{Numerische Methode}
+\textbf{Iterativer Versuch eine Lösung für den Gelenkwinkelvector $\Theta$ zu finden.}
+\begin{compactitem}
+     \item Berechne $T_{\text{TCP,t}}$ in Iteration $t$ aus Gelenkwinkelstellung $\Theta_t$.
+     \item Berechne Fehler $\Delta x$ aus Sollposition des TCP und berechneter Proposition.
+     \item Benutze approximiertes inverses kinematisches Modell F um Gelenkwinkel $\Delta \Theta$
+     zu berechnen
+     \item Berechne $\Theta_{t+1} + \Theta_t + \Delta\Theta$
+     \item Fahre mit Iteration $t+1$ fort.
+ \end{compactitem}
+
+ \mparagraph{Ansatz}
+ \begin{compactenum}
+     \item \textbf{Linearisierung}: Vorwärtskinematik als Funktion
+     \begin{compactitem}
+         \item $x(t) = f(\Theta(t))$
+         \begin{compactitem}
+             \item $x(t)$: Beschreibungsvektor der TCP Lage
+             \item $f(\Theta(t))$: Gelenkwinkelstellung
+         \end{compactitem}
+     \end{compactitem}
+     \item \textbf{Jakobi Matrix}: Ableitung nach der Zeit
+     \begin{compactitem}
+         \item $\frac{dx(t)}{dt} = \dot{x}(t) = J(\Theta)\dot{\Theta}(t)$
+         \begin{compactitem}
+             \item $J(\Theta)$: Jakobimatrix
+         \end{compactitem}
+     \end{compactitem}
+     \item \textbf{Differenzenquotient}: Übergang zum Differenzenquotienten:
+     \begin{compactitem}
+         \item $\Delta x \approx J(\Theta)\Delta\Theta$
+         \begin{compactitem}
+             \item $\Delta x$: Fehler in der TCP Lage
+             \item $\Delta\Theta$: Fehler im Gelenkwinkel
+         \end{compactitem}
+
+     \end{compactitem}
+     \item \textbf{Umkehrung}:
+     \begin{compactitem}
+         \item $\Delta\Theta \approx J^{-1}\Delta x$
+     \end{compactitem}
+ \end{compactenum}
