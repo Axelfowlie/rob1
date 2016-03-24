@@ -231,3 +231,64 @@ $T_{\text{TCP}} = A_{0,1}(\Theta_1) \cdot A_{1,2}(\Theta_2) \cdot A_{2,3}(\Theta
  \mparagraph{Singularität}
  $J^{-1}$ existiert nicht, wenn $J$ singulär ist. \\
  Die Inverse existiert genau dann, wenn $\text{rang}J = m$.
+
+\section{Dynamisches Modell}
+\textbf{Berechnung des Zusammenhangs von Kräften, Momenten und Bewegungen, welche im mechanischen
+Mehrkörpersystem auftreten}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics [scale=0.8]{dynamisch}
+    \caption{Phasen von Roboter Entwicklung und -Betrieb}
+\end{figure}
+\begin{compactitem}
+    \item Getrennte Modellierung in unterschiedlichen Phasen.
+    \item Hoher Zeitaufwand, Fehler und Inkonsistenzen wahrscheinlich.
+    \item Wiederverwendbarkeit des dyn. Modells schwierig bei Änderung.
+\end{compactitem}
+
+\mparagraph{Generalisierte Koordinaten}
+Reduzierter Satz von Koordinaten, der den aktuellen Systemzustand vollsätndig beschreibt. Alle
+Koordinaten des Satzes sind voneinander unabhängig.\\
+Generalisierte Koordinaten berücksichtigen alle Zwangsbedinungen des Systems.
+
+\mparagraph{Bewegungsgleichung}
+\begin{displaymath}
+     Q = M(q) \cdot \ddot{q} + n(\dot{q},q) + g(q) + R \cdot \dot{q}
+\end{displaymath}
+\begin{compactitem}
+    \item $Q$: $n \times 1$ Vektor der Stellkräfte und -momente (Generalisierte Kräfte)
+    \item $M(q)$: $n \times n$ Massenträgheitsmatrix
+    \item $n(\dot{q},q)$: $n \times 1$ Vektor mit Zentrifugal- und Corioliskomponenten
+    \item $g(q)$: $n \times 1$ Vektor mit Gravitationskomponenten
+    \item $R$: $n \times n$ Diagonalmatrix zur Beschreibung der Reibungskräfte
+    \item $q$: $n \times 1$ Winkellagen des Manipulators
+\end{compactitem}
+
+\subsection{Direktes dynamisches Problem}
+Aus äußeren Kräften und Momenten sowie Anfanszustand wird die sich ergebende Bewegungsänderung
+berechnet.
+
+Gegeben: $Q(t)$, Gesucht: $q(t), \dot{q(t)}, \ddot{q(t)}$ \\
+$\Rightarrow$ Gleichung auflösen nach $q(t), \dot{q(t)}, \ddot{q(t)}$
+\subsection{Inverses dynamisches Problem}
+Aus den gewünschten Bewegungsparametern sollen die erforderlichen Stellkräfte und Stellmomente ermittelt
+werden.
+Gegeben: $q(t), \dot{q(t)}, \ddot{q(t)}$, Gesucht: $Q(t)$\\
+$\Rightarrow$ Gleichung auflösen.
+
+\subsection{Lagrange Methode}
+\mparagraph{Bewegungsgleichung}
+\begin{align}
+    Q_i &= \frac{d}{dt}(\frac{\partial L}{\partial \dot{q}_i}) - \frac{\partial L}{\partial q_i} \\
+    L &= E_\text{kin} - E_\text{pot}
+\end{align}
+\mparagraph{Eigenschaften}
+\begin{compactitem}
+    \item einfaches Aufstellen der Gleichungen
+    \item geschlossenes Modell
+    \item analytisch auswertbar
+    \item Berechnung sehr umfangreich $O(n^3)$
+    \item nur Antriebsmomente werden berechnet
+\end{compactitem}
+\subsection{Newton-Euler Methode}
