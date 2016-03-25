@@ -76,7 +76,7 @@ der Beziehungen (Translation und Rotations) zwischen benachbarten Gelenken.}
 
 \mparagraph{DH-Transformation}
 Transformation $A_{i-1,i}$ von $\text{OKS}_{i-1}$ zu $\text{OKS}_i$
-\begin{compactenum}
+\begin{compactitem}
     \item $R_{z_{i-1}}(\Theta_i)$: Rotation $\Theta_{i}$ um die $z_{i-1}$-Achse damit die $x_{i-1}$-Achse parallel zur
     $x_{i}$-Achse liegt
     \item $T_{z_{i-1}}(d_i)$: Translation $d$ entlang der $z_{i-1}$-Achse zu dem Punkt, wo sich $z_{i-1}$ und $x_{i}$
@@ -85,7 +85,7 @@ Transformation $A_{i-1,i}$ von $\text{OKS}_{i-1}$ zu $\text{OKS}_i$
     Deckung zu bringen.
     \item $R_{x_i}(\alpha_i)$: Rotation $\alpha_{i}$ umd die $x_{i}$ Achse um die $z_{i-1}$-Achse in die
     $z_{i}$-Achse zu überführen.
-\end{compactenum}
+\end{compactitem}
 \begin{align}
     A_{i-1,i} &= R_{z_{i-1}}(\Theta_i) \cdot T_{z_{i-1}}(d_i) \cdot T_{x_i}(\alpha_i) \cdot R_{x_i}(\alpha_i) = \\
     &= \begin{pmatrix} \cos\Theta_i&-\sin\Theta_i\cos\alpha_i&\sin\Theta_i\sin\alpha_i&a_i\cos\Theta_i \\ \sin\Theta_i&\cos\Theta_i\cos\alpha_i &-\cos\Theta_i\sin\alpha_i &a_i\sin\Theta_i \\ 0&\sin\alpha_i&\cos\alpha_i&d_i \\0&0&0&1 \end{pmatrix}
@@ -175,7 +175,7 @@ Oft können nicht alle Gelenkwinkel aus den 12 Gleichunge bestimmt werden.
 $T_{\text{TCP}} = A_{0,1}(\Theta_1) \cdot A_{1,2}(\Theta_2) \cdot A_{2,3}(\Theta_3)
  \cdot A_{3,4}(\Theta_4) \cdot A_{4,5}(\Theta_5) \cdot A_{5,6}(\Theta_6)$
 
- \begin{compactenum}
+ \begin{compactitem}
      \item Invertiere $A_{0,1}(\Theta_1)$ und multipliziere beide Seiten der Gleichung mit $A^{-1}_{0,1}$
      \item Versuche aus dem neu enstehenden Gleichungssystem eine Gleichung zu finden, die nur eine
      Unbekannte enthält und löse diese Gleichung nach der Unbekannten.
@@ -183,7 +183,7 @@ $T_{\text{TCP}} = A_{0,1}(\Theta_1) \cdot A_{1,2}(\Theta_2) \cdot A_{2,3}(\Theta
      Schritt gefundenen Lösung nach einer Unbekannten lösbar ist.
      \item Falls keine Lösungen mehr gefunden werden können, su muss eine weitere Matrix invertiert werden.
      \item Wiederhole die Schritt 1-4 bis alle Gelenkwinkel ermittelt sind
- \end{compactenum}
+ \end{compactitem}
 
 \subsection{Numerische Methode}
 \textbf{Iterativer Versuch eine Lösung für den Gelenkwinkelvector $\Theta$ zu finden.}
@@ -197,7 +197,7 @@ $T_{\text{TCP}} = A_{0,1}(\Theta_1) \cdot A_{1,2}(\Theta_2) \cdot A_{2,3}(\Theta
  \end{compactitem}
 
  \mparagraph{Ansatz}
- \begin{compactenum}
+ \begin{compactitem}
      \item \textbf{Linearisierung}: Vorwärtskinematik als Funktion
      \begin{compactitem}
          \item $x(t) = f(\Theta(t))$
@@ -226,7 +226,7 @@ $T_{\text{TCP}} = A_{0,1}(\Theta_1) \cdot A_{1,2}(\Theta_2) \cdot A_{2,3}(\Theta
      \begin{compactitem}
          \item $\Delta\Theta \approx J^{-1}\Delta x$
      \end{compactitem}
- \end{compactenum}
+ \end{compactitem}
 
  \mparagraph{Singularität}
  $J^{-1}$ existiert nicht, wenn $J$ singulär ist. \\
@@ -292,3 +292,53 @@ $\Rightarrow$ Gleichung auflösen.
     \item nur Antriebsmomente werden berechnet
 \end{compactitem}
 \subsection{Newton-Euler Methode}
+Kräfte und Momente, die auf ein Armgelenk wirken, lassen sich aus Geschwindigkeit und
+Gelenkwinkelgeschwindigkeit berechnen.
+\begin{compactitem}
+    \item \textbf{2. Newtonsche Gleichung}
+    \begin{asparaitem}
+        \item $\vec{F}_i = m_i \cdot \vec{v}_{s,i}$
+    \end{asparaitem}
+    \item \textbf{Euler Gleichung} (Drallsatz)
+    \begin{asparaitem}
+        \item $\vec{N}_i = \vec{I}_i\dot{\omega}_{s,i}$
+    \end{asparaitem}
+\end{compactitem}
+
+\mparagraph{Vorwärtsgleichung}
+Aus dem kinematischen Robotermodell und dem Systemzustand lassen sich
+Winkelgeschwindigkeiten $\omega_i$ und translatorische Geschwindigkeiten $\vec{v}_i$ und
+Beschleunigungen des Gelenks $\dot{\omega}_i$ und Armelementes $\dot{\vec{v}}_i$ i im
+Basiskoordinatensystem bestimmen. \\
+Zusätzlich bestimmt werden
+\begin{compactitem}
+    \item Geschwindigkeiten $\vec{v}_{s,j}$ und Beschleunigungen $\dot{\vec{v}}_{s,j}$ der Massenmittelpunkte
+    der Armteile
+\end{compactitem}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics [scale=0.6]{vorwaerts}
+\end{figure}
+\mparagraph{Rückwärtsgleichung}
+Beginnend vom Greifer des Roboters lassen sich dynamische Größen des Systems rekursiv bis zur
+Basis berechnen. Dabei werden die im Vorwärtsschritt berechneten Größen verwendet.\\
+Es wird bestimmt:
+\begin{compactitem}
+    \item auftretende Kraft $\vec{F}_i$ im Schwerpunkt von Armelement i
+    \item auftreender Drehimpuls $\vec{N}_i$ im Schwerpunkt von Armelement i
+    \item Kraftvektor $\vec{f}_i$ ausgeübt von Armteil i-1 auf Armteil i
+    \item Momentenvektor $\vec{n}_i$ ausgeübt von Armtiel i-1 auf Armteil i
+    \item skalarer Drehmomentvektor des i-ten Gelenks $Q_i$
+\end{compactitem}
+\begin{figure}[!h]
+    \centering
+    \includegraphics [scale=0.6]{rueckwaerts}
+\end{figure}
+\mparagraph{Eigenschaften}
+\begin{compactitem}
+    \item für beliebige Anzahl von Gelenken
+    \item Belastung der Armelemente werden berechnet
+    \item Aufwand $O(n)$
+    \item Rekursion
+\end{compactitem}
