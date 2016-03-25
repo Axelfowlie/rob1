@@ -49,3 +49,73 @@ Die Störgröße wird ausgeregelt.
 \end{compactitem}
 
 \section{Reglertypen}
+\subsection{PID Regler (und Unterklassen)}
+\textbf{Sehr verbreitet, da für nahezu alle Prozesstypen geeignet, robust und mit geringem Aufwand
+realisierbar} \\
+P: güngstiges Regelverhalten, I: stationäre Genauigkeit, D: schnelle Ausregelung
+\begin{align}
+    u(t) = K_p (e(t) + \frac{1}{T_N}\int_o^t e(\tau)d\tau)+ T_V \frac{d}{dt}e(t))
+\end{align}
+mit Nachstellzeit $T_N$ und Vorhaltzeit $T_V$.
+
+\mparagraph{Laplacetransformation}
+\begin{align}
+    u(t) &= K_Pe(t) + K_I \int e(t)dt + K_D \frac{d}{dt}e(t) \Leftrightarrow \\
+    \Leftrightarrow u(s) &= K_Pe(s) + K_I \frac{1}{s}e(s) + K_Dse(s) \\
+    \leftrightarrow \frac{u(s)}{e(s)} &= G(s) = K_P + K_I \frac{1}{s}+K_Ds \\
+    \frac{\text{Ausgang}}{\text{Eingang}} &= \text{Übertragungsfunktion}
+\end{align}
+\subsection{Kennlinien- bzw. Kennlinienfeldregler}
+\textbf{nihctlineare Übertragungsglieder}\\
+z.B Zweipunktregler (Temperatur-Regelung)
+\newpage
+\subsection{Zustandsregler}
+\textbf{Verbessertes Regelverhalten, da nicht nur die Regelabweichung, sondern im Idealfall alle
+Zustandsgrößen der Regelstrecke zur Verfügung gestellt werden.} \\
+regelungstechnische Behandlung von Mehrgrößensystemen, nichtlinearen und zeitvariablen
+Übertragungssystemen.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics [scale=0.5]{mehrgroesse}
+\end{figure}
+
+\subsection{Kaskadenregelung}
+\textbf{Unabhängige lineare Einzelregelkreis der einzelnen Gelenke}\\
+Manipulator = Mehrgrößensystem
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics [scale=0.3]{kaskade}
+\end{figure}
+
+\subsection{Adaptive Regelung}
+\textbf{Lageabhängige und somit zeitveränderliche Systemteile werden als Parameterschwankungen
+aufgefasst}
+\begin{figure}[!h]
+    \centering
+    \includegraphics [scale=0.3]{adaptiv}
+\end{figure}
+
+\section{Regelungskonzepte für Manipulatoren}
+\textbf{Regelung von Manipulatoren beschreibt nicht nur Positionsregelung, sondern auch die
+Einbeziehung weiterer Umwelteinflüsste} (Massenträgheit des Manipulators, Gravitations-, Zentrifugal-,
+Coriolis und Reibungskräfte/Momente auf die Gelenke)
+\subsection{Exakte Systemmodellierung}
+setzt a priori die exakte Kenntnis des Dynamikmodells und er Umgebung des Roboters voraus.
+\subsection{Kraft-/Positionsregelung}
+Position und Kräfte sind eng miteinander verknüpft. Steht Roboter in Kontakt mit Umgebung so bedeutet
+Positionsänderung auch Kraftänderung und vice versa.
+
+\mparagraph{Hybride Kraft-/Positionsregelung}
+Wahlweise zwischen reiner Kraft und reiner Positionsregelung gewählt für jede kartesische Bewegungsrichtung
+des Arms.
+\mparagraph{Impedanz Regelung}
+Regelt die dynamische Beziehung zwischen Kraft und Positions im Kontaktfall. \\
+Idee: Interaktion Roboter-Umwelt verhält sich wie Feder-Dämpfer-Masse-System.
+\begin{align}
+     f(t) &= d * x(t)b * \dot{x}(t) + m * \ddot{x}(t)\\
+     &\Rightarrow \text{Lapace Transformation} \Rightarrow \\
+     F(s) &= (d + b+ s+ m *s ^2) * X(s)
+\end{align}
+Impedanz kann über Steifheit d, Dämpfung b und Trägheit m beeinflusst werden.
