@@ -1,2 +1,32 @@
 % !TEX root = rob1.tex
 \chapter{Bahnsteuerung}
+
+\section{Grundlagen}
+\mparagraph{Trajektorie}
+Bewegung eines Roboters aufgefasst als Zustandsänderung über die Zeit,
+relativ zu einem stationären Koordinatensystem mit Einschränkungen (Zwangsbedinungen,
+Gütekriterien, Neben und Randbedinungen)
+
+\mparagraph{Koordinatensysteme}
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll}
+\textbf{Kartesischer Raum}                                                                                                                                                                                                                                                                                                                 & \textbf{Gelenkwinkelraum}                                                                                                                                                                                                                                                                                                                                             \\
+\begin{tabular}[c]{@{}l@{}}Näher an der zu lösenden Aufgabe\\ \\ Angabe der Trajektorie erfolgt als
+    \\ Funktion der Zustände des Roboters\\ \\ + Bahn einfacher zu formulieren\\ + Interpolation ist
+     einfacher\\ - Inverse Kinematik für jeden\\ Trajektorienpunkt zu lösen\\ - Geplante Trajektorie
+      nicht immer\\ ausführbar\end{tabular} & \begin{tabular}[c]{@{}l@{}}Näher an der Ansteuerung der
+       Teilsysteme\\ des Roboters\\ \\ Bahnsteuerung als Funktion der Gelenkwinkelzustände\\ \\ +
+       Ansteuerung der Gelenke ist einfacher\\ + Trajektorie ist eindeutig und berücksichtigt die \\
+       Gelenkwinkelgrenzen\\ - Interpolation für mehrere Gelenke\\ - Formulieren der Trajektorie
+       umständlicher\end{tabular}
+\end{tabular}
+\end{table}
+
+\section{Interpolation}
+\subsection{Punkt-zu-Punkt , PTP}
+\subsection{Linear und Zirkularinterpolation}
+\subsection{Splineinterpolation}
+\section{Approximierte Bahnsteuerung}
+\subsection{Bernsteinpolynom}
+\subsection{De Casteljau Algorithmus}
