@@ -87,8 +87,8 @@ Transformation $A_{i-1,i}$ von $\text{OKS}_{i-1}$ zu $\text{OKS}_i$
     $z_{i}$-Achse zu überführen.
 \end{compactitem}
 \begin{align}
-    A_{i-1,i} &= R_{z_{i-1}}(\Theta_i) \cdot T_{z_{i-1}}(d_i) \cdot T_{x_i}(\alpha_i) \cdot R_{x_i}(\alpha_i) = \\
-    &= \begin{pmatrix} \cos\Theta_i&-\sin\Theta_i\cos\alpha_i&\sin\Theta_i\sin\alpha_i&a_i\cos\Theta_i \\ \sin\Theta_i&\cos\Theta_i\cos\alpha_i &-\cos\Theta_i\sin\alpha_i &a_i\sin\Theta_i \\ 0&\sin\alpha_i&\cos\alpha_i&d_i \\0&0&0&1 \end{pmatrix}
+    &A_{i-1,i} = R_{z_{i-1}}(\Theta_i) \cdot T_{z_{i-1}}(d_i) \cdot T_{x_i}(\alpha_i) \cdot R_{x_i}(\alpha_i) = \\
+    =&\begin{pmatrix} \cos\Theta_i&-\sin\Theta_i\cos\alpha_i&\sin\Theta_i\sin\alpha_i&a_i\cos\Theta_i \\ \sin\Theta_i&\cos\Theta_i\cos\alpha_i &-\cos\Theta_i\sin\alpha_i &a_i\sin\Theta_i \\ 0&\sin\alpha_i&\cos\alpha_i&d_i \\0&0&0&1 \end{pmatrix}
 \end{align}
 
 \mparagraph{Inverse DH Transformation}
@@ -186,7 +186,7 @@ $T_{\text{TCP}} = A_{0,1}(\Theta_1) \cdot A_{1,2}(\Theta_2) \cdot A_{2,3}(\Theta
  \end{compactitem}
 
 \subsection{Numerische Methode}
-\textbf{Iterativer Versuch eine Lösung für den Gelenkwinkelvector $\Theta$ zu finden.}
+\textbf{Iterativer Versuch eine Lösung für den Gelenkwinkelvektor $\Theta$ zu finden.}
 \begin{compactitem}
      \item Berechne $T_{\text{TCP,t}}$ in Iteration $t$ aus Gelenkwinkelstellung $\Theta_t$.
      \item Berechne Fehler $\Delta x$ aus Sollposition des TCP und berechneter Proposition.
