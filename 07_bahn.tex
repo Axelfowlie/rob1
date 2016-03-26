@@ -1,2 +1,54 @@
 % !TEX root = rob1.tex
 \chapter{Bahnplanung}
+
+\section{Problemklassen}
+\begin{itemize}
+    \item \textbf{Klasse a)}
+    \begin{compactitem}
+        \item bekannt: vollständiges Umweltmodell und vollst. Neben-, Rand- und Zwangsbedingungen
+        \item gesucht: Kollisionsfreie Bahn von Start zu Zielzustand
+    \end{compactitem}
+    \item \textbf{Klasse b)}
+    \begin{compactitem}
+        \item bekannt: unvollständiges Umweltmodell unvollst. Neben-, Rand- und Zwangsbedingungen
+        \item gesucht: Kollisionsfreie Bahn von Start zu Ziel
+        \item Problem: Kollision mit unbekannten Objekten
+    \end{compactitem}
+    \item \textbf{Klasse c)}
+    \begin{compactitem}
+        \item bekannt: zeitinvariantes Umweltmodell (bewegliche Hindernisse)
+        \item gesucht: Kollisionsfreie Bahn von Start zu Zielzustand
+        \item Problem: Hindernisse in Ort und Zeit variant
+    \end{compactitem}
+    \item \textbf{Klasse d)}
+    \begin{compactitem}
+        \item bekannt: kein Umweltmodell
+        \item gesucht: Kollisionsfreie Bahn von Start zu Zielzustand
+        \item Problem: Kartografie
+    \end{compactitem}
+    \item \textbf{Klasse e)}
+    \begin{compactitem}
+        \item bekannt: zeitvariantes Umweltmodell
+        \item gesucht: Bahn zu einem beweglichen Ziel (Rendezvous Problem)
+        \item Problem: Zielzustand in Ort und Zeit beweglich
+    \end{compactitem}
+\end{itemize}
+\section{Definitionen}
+\mparagraph{Konfiguration}
+Eine Konfiguration q beschreibt den Zustand eines Roboters A im eukl. Raum durch Lage und Orientierung
+oder im Gelenkwinkelzustandsraum durch die Werte der Gelenke.
+\mparagraph{Konfigurationsraum}
+Konfigurationsraum $C$ des Roboters A ist der Raum aller möglichen Konfigurationen von A
+\mparagraph{Weg}
+Weg für Roboter A von der Konfiguration q$_\text{Start}$ zur Konfiguration q$_\text{Ziel}$ ist eine
+stetige Abbildung $\tau:[0,1] \rightarrow C$
+\mparagraph{Arbeitsraumhindernis}
+Arbeitsraumhindernis H ist der Raum, welcher von einem Objekt im Arbeitsraum eingenommen wird
+\mparagraph{Konfigurationsraumhindernis}
+$C_H$ ist die Menge aller Punkte des Konfigurationsraum, welche zu einer Kollision mit dem Hindernis
+H führen
+\mparagraph{Hindernisraum}
+Menge aller Konfigurationsraumhindernisse $C_\text{obst} = \cup C_{H_i}$
+\mparagraph{Freiraum}
+Menge aller Punkte aus C, welche nicht im Hindernisraum liegen.
+$C_\text{free} =  \{ q \in C | q \notin C_\text{obst}\} = C \backslash C_\text{obst}$
