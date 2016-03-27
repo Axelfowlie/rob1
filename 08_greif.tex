@@ -78,4 +78,59 @@ $\tau_i$, die auf das gegriffene Objekt wirken, gleich Null ist.
 \end{align}
 $^i\mu_t, ^i\mu_\Theta \in R$ = Coulombschen Reibungskoeffizienten am i-ten Kontaktpunkt
 
-\section{Kraft und Formgeschlossene Griffe}
+\section{Griffe}
+\subsection{Kraftgeschlosene Griffe}
+\begin{align}
+    & \forall \vec{e} = {f_x, f_y, f_z, \tau_x, \tau_y, \tau_z} \in R^6 \\
+    & \exists \vec{c} \in R^{3m}, \vec{c} \neq \vec{0} : G.\vec{c} + \vec{e} = 0
+\end{align}
+\begin{compactitem}
+    \item Kraftgeschlossenheit basierend auf Punktkontakten ohne Reibung braucht mind. 4 Kontaktpunkte.
+    Bei 3D höchstens 12. Wenn Objekt auf Polyeder gilt obere Grenze von 7 Kontaktpunkten.
+    \item Kraftgeschlossenheit basierend auf Punktkontakten mit Reibung kann jedes planare Objekt durch
+    3 Kontaktpunkte basierenden Fingerspitzen griff kraftgeschlossen gegriffen werdne. Für 3D min. 4.
+\end{compactitem}
+\subsection{Formgeschlosene Griffe}
+\begin{align}
+    & \forall \vec{e} = {f_x, f_y, f_z, \tau_x, \tau_y, \tau_z} \in R^6 \\
+    & \exists \vec{c} \in R^{3m}: G.\vec{c} + \vec{e} = 0
+\end{align}
+\begin{compactitem}
+    \item Nur von Position der Kontaktpunkte auf der Oberfläche des Objektes und den externen
+    Oberflächen-Normalenvektoren abhängig.
+    \item Weder Normal oder Tangentialkräfte, noch Drehmomente durch u.a Reibung werden berücksichtig.
+    \item Mindestens 4 Kontaktpunkte nötig. Bei 3D min. 7.
+\end{compactitem}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll}
+\textbf{Kraftschluss}                                                                                                                                                                                                                                                                           & \textbf{Formschluss}                                                                                                                                                                                                                                      \\
+\begin{tabular}[c]{@{}l@{}}Kinematik der Hand kann aktive \\ Kräfte erzeugen um einer externen\\ Störung zu widerstehen\\ \\ Mit weniger Kontaktpunkten möglich. \\ Daher bei Präzisionsgriffen verwendet.\\ \\ Regelung intern auftretender Kräfte\\ bei einem Griff erforderlich\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Kontakte an sich verhindern, \\ dass sich das Objekt bewegen kann.\\ \\ Stärkere Bedingung als Kraftschluss \\ und wird oft bei Ausführung von \\ Kraftgriffen verwendet\\ \\ Analyse basierend auf Geometrie\end{tabular}
+\end{tabular}
+\end{table}
+\subsection{Stabile Griffe}
+\begin{compactitem}
+    \item Einführung einer Potentialfunktion $V: R^6 \rightarrow R$. Spezifiziert die im Griff gespeicherte
+    potentielle Energie in Abhängigkeit von Lage und Orientierung des gegriffenen Objekts.
+    \item $\delta q= (\delta_x, \delta_y, \delta_z, \delta_\alpha, \delta_\beta, \delta_\gamma) \in
+    R^6 \neq 0$ beschreibt eine infinitesimale Lageänderung des gegriffenen Objekts und $\delta V$ die daraus
+    resltierende Veränderung der potentiellen Energie.
+    \item Dieser Griff ist stabil falls: $\forall \delta q \in R^6: \delta V > 0$
+\end{compactitem}
+\section{Planung von Greifoperationen}
+\begin{compactenum}
+    \item Greifklassenselektion
+    \item Kollisionsfreiheit der Abrückbewegung
+    \item Bestimmung von Fingerhindernisse
+    \item Bestimmung von Basishindernissen
+    \item Zugängliche Griffe
+    \item Erreichbare Griffe
+    \item Griffselektion
+\end{compactenum}
+\section{Suchraum}
+Dimension des Suchraums für den geom. un physikalischen Ansatz: \textbf{6 + n}
+\begin{compactitem}
+    \item 6 Paramter für Position und Orientierung der Hand im Raum
+    \item n Anzahl der Konfigurationsparameter der Greiferfinger
+\end{compactitem}
