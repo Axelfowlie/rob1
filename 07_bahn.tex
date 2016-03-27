@@ -52,3 +52,87 @@ Menge aller Konfigurationsraumhindernisse $C_\text{obst} = \cup C_{H_i}$
 \mparagraph{Freiraum}
 Menge aller Punkte aus C, welche nicht im Hindernisraum liegen.
 $C_\text{free} =  \{ q \in C | q \notin C_\text{obst}\} = C \backslash C_\text{obst}$
+
+\section{Planungsverfahren}
+\subsection{Mobile Roboter}
+\begin{compactitem}
+    \item Voronoi Diagramm
+    \item Sichtgraph $\rightarrow$ Erweiterung der Hindernisse durch Kreis/Rechteck
+    \item Zellenzerlegung
+    \begin{compactitem}
+        \item Exakte
+        \item Approximative (Quad Tree)
+    \end{compactitem}
+    \item Potentialfelder mit Abstoßung und Anziehungspotentialen.
+\end{compactitem}
+\subsection{Manipulatoren}
+\subsubsection{Probabilistic Roadmaps, PRM}
+\begin{compactitem}
+    \item Approximation des Freiraumes
+\end{compactitem}
+\begin{compactenum}
+    \item Vorverarbeitung
+    \begin{compactitem}
+        \item Zufällige Erzeugung von kollisionsfreien Stichproben
+        \item Stichproben werden über kollisionsfreien Pfad verbunden
+    \end{compactitem}
+    \item Anfrage
+    \begin{compactitem}
+        \item Verbinde Start und Ziel mit Wegnetz
+        \item Suche im Graphen
+    \end{compactitem}
+\end{compactenum}
+
+\subsubsection{Rapidly-exploring Random Tree}
+\begin{compactitem}
+    \item Algorithmus zur Einmalanfrage (keine Vorverarbeitung nötig)
+    \item Aufbau zweier Bäume zur Approximatin des Freiraumes
+\end{compactitem}
+
+\begin{algorithm}[H]
+    \begin{algorithmic}
+        \State BUILD\_RRT(K$_\text{Start},n,\epsilon$)
+        \State T.init(K$_\text{Start}$) Neuer Baum mit Startkonfiguration in der Wurzel
+        \For {k=1 to n}
+        \State K$_\text{Zuf} \leftarrow$ RAND\_CONF() Gleichverteilt zufällige Erzeugung einer Konfiguration
+        \State K$_\text{Nahe} \leftarrow$ NEAREST\_VERTEX(K$_\text{Zuf}$, T) Bestimmung des nächsten Knoten
+        \State K$_\text{Neu} \leftarrow$EXTEND(K$_\text{Nahe}$, K$_\text{Zuf}$, $\epsilon$) Erzeuge neue Konfiguration mit Abstand $\Epsilon$ zu K$_\text{Nahe}$
+        \State Falls Konfigurations gültig, füge neuen Knoten und Kante hinzu
+        \EndFor
+        \caption{RRT - Einfach}
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \begin{algorithmic}
+        \State 1. Aufbau von zwei Bäumen $T_1$ und $T_2$ mit Wurzelknoten $K_\text{Start}$ bzw. $K_\text{Ziel}$
+        \State 2. Stichprobe K$_\text{Zuf}$ wird zur Erweiterung von $T_1$ verwendet mit Ergebni K$_\text{Neu}$
+        \State 3. Erweiterung von $T_2$ mit K$_\text{Neu}$ bis K$_\text{Neu}$ erreicht oder !Valid(K$_\text{Neu}$)
+        \State 4. Falls K$_\text{Neu}$ von $T_2$ erreicht wird, ist ein gültiger Pfad gefunden
+        \State 5. Sonst: Vertausche Rolle von $T_1$ und $T_2$
+
+        \caption{RRT - Bidirektional}
+    \end{algorithmic}
+\end{algorithm}
+
+\textbf{Die Wahrscheinlichkeit, dass ein Knoten erweitert wird, ist proportional zur Größe der
+entsprechenden Voronoi-Region}
+
+\subsubsection{Glättung}
+\begin{compactitem}
+    \item Zufällige Wahl zweier Knoten im Lösungsweg
+    \item Falls Verbindung kollisionsfrei, Verbinde beide Knoten und lösche dazwischenliegende Knoten
+    aus dem Lösungspfad
+\end{compactitem}
+
+\subsubsection{Constrained Motion Planning}
+\begin{compactitem}
+    \item RRT Erweiterung
+    \item VALID(K) unzureichend für Einschränkungen mit P(VALID(K))=0
+    \item Erweiterung durch Berechnung von Distanz und/oder Richtung zu Konfiguration im Freiraum
+    \item Ersetzung der Extend-Funktion
+    \begin{compactitem}
+        \item Randomized Gradient Descend
+        \item First Order Retraction
+    \end{compactitem}
+\end{compactitem}
