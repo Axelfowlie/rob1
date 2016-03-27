@@ -96,7 +96,7 @@ $C_\text{free} =  \{ q \in C | q \notin C_\text{obst}\} = C \backslash C_\text{o
         \For {k=1 to n}
         \State K$_\text{Zuf} \leftarrow$ RAND\_CONF() Gleichverteilt zufällige Erzeugung einer Konfiguration
         \State K$_\text{Nahe} \leftarrow$ NEAREST\_VERTEX(K$_\text{Zuf}$, T) Bestimmung des nächsten Knoten
-        \State K$_\text{Neu} \leftarrow$EXTEND(K$_\text{Nahe}$, K$_\text{Zuf}$, $\epsilon$) Erzeuge neue Konfiguration mit Abstand $\Epsilon$ zu K$_\text{Nahe}$
+        \State K$_\text{Neu} \leftarrow$EXTEND(K$_\text{Nahe}$, K$_\text{Zuf}$, $\epsilon$) Erzeuge neue Konfiguration mit Abstand $\epsilon$ zu K$_\text{Nahe}$
         \State Falls Konfigurations gültig, füge neuen Knoten und Kante hinzu
         \EndFor
         \caption{RRT - Einfach}
