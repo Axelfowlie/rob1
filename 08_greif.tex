@@ -134,3 +134,15 @@ Dimension des Suchraums für den geom. un physikalischen Ansatz: \textbf{6 + n}
     \item 6 Paramter für Position und Orientierung der Hand im Raum
     \item n Anzahl der Konfigurationsparameter der Greiferfinger
 \end{compactitem}
+\section{Objektmodell}
+\mparagraph{Greifobjekt}
+starre, polyedrische Körper. Merkmale sind
+\begin{compactitem}
+    \item \textbf{Ecke}: Eckpunkte sind diejenigen Punkte eines Polyeders, an denen drei oder mehr
+    Flächen zusammenlaufen
+    \item \textbf{Kante}: Kanten beschreiben Liniensegmente, die durch den Schnitt zweier Flächen
+    entstehen.
+    \item \textbf{Fläche}: Flächen werden durch planare Polygonzüge spezifiziert, die durch die Kanten
+    des Polyeders begrenzt werden.
+\end{compactitem}
+Modelliert in einem zusammenhängenden Graphen.
