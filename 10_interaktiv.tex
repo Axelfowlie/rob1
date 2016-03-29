@@ -77,4 +77,100 @@ Bewegung und Greiferbefehle sind direkt in eine Programmiersprache eingebunden. 
 \subsubsection{Implizite Programmierung (aufgabenorientiert)}
 Die Aufgabe, die der Roboter ausführen soll, wird beschrieben z.B in Form von Zuständen \\
 \textbf{,,Was ist zu tun?''}
-\section{Interkative Programmierverfahren}
+\section{Interaktive Programmierverfahren}
+
+\subsection{Grundprinzip und Komponenten}
+\begin{compactitem}
+    \item Mensch ist Domänenexperte (Manipulation) (\textbf{Benutzer})
+    \item Explizite Demonstration als Manipulationsaufgabe (\textbf{Benutzer})
+    \item Sensorielle Erfassung der Demonstration (\textbf{Sensoren und Interaktionsformen})
+    \item Erzeugung der internen Repräsentation des Roboterprogramms (\textbf{Lernsystem})
+    \item Abbildung auf das Robotersystem (\textbf{Transformation})
+    \item \textbf{Ausführung}
+\end{compactitem}
+
+\mparagraph{Interaktionsformen}
+\begin{compactitem}
+    \item Physische Demonstration
+    \item Graphische Demonstration
+    \item Ikonische Demonstration
+    \item Kommentierung
+\end{compactitem}
+\mparagraph{Sensoren}
+\begin{compactitem}
+    \item fixierte Deckenkamera
+    \item aktiver Kamerakopf
+    \item Taktile Sensoren im Handbereich
+    \item Trackingsystem
+    \item Datenhandschuh
+\end{compactitem}
+
+\mparagraph{Lernsystem, Wissensrepräsentation}
+\begin{compactitem}
+    \item Manipulatorabhängige Repräsentation durch Angabe von Aktionssequenzen oder Gelenkwinkel-,
+    Kraft und Momenttrajektorie
+    \item Manipulatorunabhängige Repräsentation durch Sequenzen von Elementaroperatoren
+    \begin{compactitem}
+        \item Elementaroperatoren sind Regelungen mit Start-, End- und Fehlerkriterien
+        \item Implementierung der Elementarop. ist manipulatorunabhängig
+        \item Effekte in der Umwelt sind manipulatorunabhängig.
+    \end{compactitem}
+\end{compactitem}
+
+\mparagraph{Transformation}
+Abbildung des generalisierten Handlungswissens auf ein Robotersystem in der Ausführungsumgebung.
+\subsection{Probabilistisches Programmierverfahren}
+\begin{compactitem}
+    \item Lernen von Skills durch Aktive, physische Demonstration am Roboter.
+    \item Repräsentation durch GMMs
+    \item Direkte Ausführung
+    \item \textbf{Vorteile}:
+    \begin{compactitem}
+        \item schnelles Verfahren
+        \item automatische Adaptierung an Änderung der Objektposition
+    \end{compactitem}
+    \item \textbf{Nachteile}:
+    \begin{compactitem}
+        \item relevante Merkmale manuell definiert
+        \item geringe Generalisierung, da keine Vorbedingung, Ziele, Kollisionen
+        \item keine Validierung
+    \end{compactitem}
+\end{compactitem}
+
+\subsection{Dynamikbasiertes Programmierverfahren}
+\begin{compactitem}
+    \item Lernen von Skills durch aktive physische Demonstration am Roboter
+    \item Repräsentation durch Dznamic Movement Primitives (Differentialgleichungen)
+    \item Direkte Ausführung
+    \item \textbf{Vorteile}:
+    \begin{compactitem}
+        \item schnelles Verfahren
+        \item autom. Adaptierung an Start und Ziel
+        \item lokale Hindernisvermeidung möglich
+    \end{compactitem}
+    \item \textbf{Nachteile}:
+    \begin{compactitem}
+        \item relevante Merkmale manuell definiert
+        \item geringe Generalisierung
+        \item keine Validierung
+    \end{compactitem}
+\end{compactitem}
+\subsection{Planungsbasiertes Programmierverfahren}
+\textbf{Einsatz von Planungsmethoden}
+\begin{compactitem}
+    \item Repräsentation der Manipulationsaufgabe als Bahnplanungsproblem mit Einschränkungen
+    \item Autonome Planung von Bewegung, die das Ziel einer Manipulationsaufgabe erfüllen
+    \item \textbf{Vorteile}:
+    \begin{compactitem}
+        \item Generalisierung auf Basis von Koordinatensystemen
+        \item Start und Zielbeschreibung, Validierbarkeit
+        \item Hindernisvermeidung und Berücksichtigung von Einschränkungen
+        \item mehrere Lösungen und beliebige Optimalitätskriterien
+    \end{compactitem}
+    \item \textbf{Nachteile}:
+    \begin{compactitem}
+        \item hoher Aufwand (Planungszeit, Simulationszeit)
+        \item 3D Modelle der Objekte, menschl. Hand notwendig
+        \item autom. Segmentierung bei dynamischer Bewegung schwierig
+    \end{compactitem}
+\end{compactitem}
