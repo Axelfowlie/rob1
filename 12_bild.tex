@@ -86,11 +86,184 @@ Approximation von f(x) durch 3x3 Filter mit $\sigma = 0.85$
          1 & 2 & 1 \\ 2&4&2\\1&2&1
  \end{pmatrix}
 \end{displaymath}
+Je größer $\sigma$, desto stärker die Glättung
 \subsection{Hochpassfilter}
 \textbf{Kantendetektion}
 
 \subsubsection{Prewitt}
-\subsubsection{Sobel}
-\subsubsection{Laplace}
-\subsubsection{Roberts}
-\subsection{Kombinierte Operatoren}
+\begin{align}
+    P_x &= \begin{pmatrix}-1&0&1\\-1&0&1\\-1&0&1 \end{pmatrix}
+    P_y &= \begin{pmatrix}-1&-1&-1\\0&0&0\\1&1&1 \end{pmatrix}
+\end{align}
+Kombination der Prewitt Filter zur Bestimmung des Gradientenbetrags M
+\begin{displaymath}
+     M \approx \sqrt{{P_x}^2 + {P_y}^2}
+\end{displaymath}
+Danach Schwellwertfilterung
+
+\section{Segmentierung}
+\textbf{Aufteilung eines Bildes in aussagekräftige Segmente}
+\subsection{Schwellwertfilterung}
+Konvertierung eines Grauwertbildes in ein binäres Bild. \\
+Generell können Objekte über ihre Farbe segmentiert werden. \\
+Problematisch sind wechselnde Lichtbedinungen, Reflexionen und Schattenwürfe
+
+\subsection{Morphologische Operatoren}
+\subsubsection{Dilatation}
+Vergrößert Pixel zu größeren Bereichen \\
+Prüfe an jeder Position ob Maske H teilmenge von Bild B ist
+\subsubsection{Erosion}
+Entfernt einzelne Pixel und schwach zusammenhängende Pixelgruppen \\
+Prüfe an jeder Position ob Schnittmenge von Bild B und Maske H nicht leer ist.
+
+\subsection{Canny Kantendetektor}
+\begin{compactenum}
+    \item Rauschunterdrückung durch Gauss Filter
+    \item Kantendetektion mit Sobel oder Prewitt
+    \item Non Maximum Supression
+    \begin{compactitem}
+        \item Gradient muss lokales Max. sein
+        \item Betrachtung der zwei direkten Nachbarn entlang der Gradientenrichtung
+        \item Überprüfung erfolg gemäß dem jeweiligen Quadranten
+    \end{compactitem}
+    \item Hysterese Schwellwertverfahren
+    \begin{compactitem}
+        \item Verwende Schwellwerte low und high
+        \item Liegt der Betrag des Gradienten für einen Pixel über high, so wird er
+        auf jedenfall akzeptiert
+        \item Ausgehen von den akzeptierten Pixel werden Kanten rekursiv verfolg
+        \begin{compactitem}
+            \item Überprüfung der 8 direkten Nachbarn
+            \item Betrag Gradient muss über low liegen
+        \end{compactitem}
+    \end{compactitem}
+\end{compactenum}
+
+\section{Registrierung von Punktwolken mit Iterative Closest Point, ICP}
+Registrierung ist die Zusammenführung von Punktwolken, welche das gleiche
+Objekt aus unterschiedlichen Ansichten beschreibt
+
+\subsection{Algorithmus}
+Registrierung zweier 3D Punktwolken und minimiert Distanz zwischen ihnen
+
+\begin{compactenum}
+    \item Für jede Iteration k gilt:
+    \begin{compactitem}
+        \item Für jeden Punkt $a_i$ aus A suche Punkt $b_i$ aus B, der $a_i$ am nächsten
+        liegt.
+        \item Berechen eine Transformation $T_k$, so dass $D_k$ minimal wird. z.B
+        $D_k = \sum_i || a_i - T_k \cdot b_i || ^2$
+    \end{compactitem}
+    \item $D_k$ kombiniert Translation und Rotation
+    \item Wende Transformatin $T_k$ auf alle Punkte aus B an
+    \item Abbrichkriterium: Schwellwert für $D_{k-1}-D_k$ oder max. Iterationen erreicht.
+    \item \textbf{Vorteile}:
+    \begin{compactitem}
+        \item Algorithmus für Punkte, Normalenvektoren und andere Darstellungsformen
+        anwendbar
+        \item Nur einfache mathematische Operation notwendig
+        \item Schnelles Registrierungsergebnis
+    \end{compactitem}
+    \item \textbf{Nachteile}:
+    \item Symmetrische Objekte können nicht ohne wieteres registriert werden
+    \item Konvergenz in ein lokales Minimum möglich
+    \item Überlappung der Punktwolken erforderlich
+\end{compactenum}
+
+\section{Random Sample Consensus, RANSAC}
+\begin{compactitem}
+    \item \textbf{RANSAC ist ein nicht deterministischer Algorithmus. Ist eine iterative
+    Methode zur Schätzung von Modellparametern aus Datenpunkten}
+    \item Robust gegenüber Ausreißern und fehlenden Datenpunkten
+    \item Anwendung in  Bildverarbeitung
+    \begin{compactitem}
+        \item Schätzung von Lininen in 2D Bildern
+        \item Schätzung vno Ebenen und anderen Primitiven in 3D Punktwolken
+    \end{compactitem}
+    \item \textbf{Vorteile}:
+    \begin{compactitem}
+        \item Einfach, allgemein und einfach zu implementieren
+        \item Robuste Modellschätzung für Daten mit wenigen Ausreißern
+        \item Vielseitig anwendbar
+    \end{compactitem}
+    \item \textbf{Nachteile}:
+    \begin{compactitem}
+        \item Nicht Deterministisch
+        \item Viele Parameter
+        \item Trade off zwischen Genauigkeit und Laufzeit
+        \item Nicht anwendbar wenn Verhältnis Inliers/Outliers zu klein ist
+    \end{compactitem}
+\end{compactitem}
+
+\subsection{Algorithmus}
+\begin{compactenum}
+    \item Wähle zufällig die min. Anzahl an Punkten aus, die nötig ist um die
+    Modellparameter zu berechnen. (2 für Linie in 2D, 3 für Ebene in 3D)
+    \item Schätze ein Modell aus dem ausgewählten Datensatz
+    \item Bewertung der Modellschätzung: Berechne die Teilmenge der Datenpunkte
+    (Inliers), deren Abstand zum Modell kleiner ist als ein vordefinierter Schwellwert
+    \item Wiederhole 1-3 bis das Modell mit den meisten Inliers gefunden wird
+\end{compactenum}
+
+\secion{Normalenschätzung in 3D Punktwolken}
+\textbf{Ziel: Zusätzliche Oberflächeninformation durch Einbeziehung lokaler
+Nachbarpunkte}. \\
+Dient als Grundlage für weiterführende Algorithmen der Segmentierung,
+Deskriptoren, Objekterkennung oder Oberflächenmodellierung
+
+\subsection{PCA basierter Ansatz}
+\begin{compactitem}
+    \item Erstelle die Kovarianzmatrix C der k-Punktnachbarschaft für jeden Punkt p
+    \item Bestimme die Eigenwerte und Eigenvektoren von C
+    \begin{compactitem}
+        \item Hauptkomponentenanalyse
+        \item Eigenvektor zu kleinstem Eigenwert korrespondiert mit der Normalen
+    \end{compactitem}
+\end{compactitem}
+\begin{displaymath}
+     C = \frac{1}{k}\sum_1^k (p_i - \overline{p})(p_i - \overline{p})^T
+\end{displaymath}
+\begin{compactitem}
+    \item $p_i$ k Nachbarpunkte
+    \item $\overline{p}$ Mittelpunkt aller k Nachbarn
+\end{compactitem}
+
+\section{Simultaneous Localization and Mapping, SLAM}
+\textbf{Slam ist eine Abschätzung von sowohl der Position des Roboters als auch der
+Karte der Umgebung zur gleichen Zeit} \\
+
+Slam wird benötigt um voll autonome Roboter zu bauen, um in einer unbekannten
+Umgebung überleben zu können, um zu wissen wo sich der roboter befindet und zur
+Navigation ohne externe Positionssysteme wie GPS
+
+\subsubsection{Terme}
+\begin{compactitem}
+    \item \textbf{Localization}: Abschätzung des Aufenthaltsorts des Roboters, gegeben
+    eine Karte
+    \item \textbf{Mapping}: Ableiten einer Karte gegeben einem Set von Orten
+    \item \textbf{SLAM}: Erstelle eine Map und lokalisiere den Roboter zeitgleich!
+\end{compactitem}
+
+\subsubsection{Problem}
+Man benötigt eine Karte um den Roboter zu lokalisieren, aber zeitgleich die
+Positionen des Roboters um eien Karte zu erstellen. \\
+$\Rightarrow$ Tracking der Bewegung der Kamera und des Roboters
+
+\subsubsection{Benötigte Features}
+\begin{compactitem}
+    \item SLAM System, dass Szenenfeatures festhält (Landmarks)
+    \item Visuelle Features sind Punkte, Ecken, Linien, Texturen oder Oberflächen
+    \item Features müssen beschreibend und eindeutig sein!
+\end{compactitem}
+
+\subsubsectino{How to do SLAM}
+\begin{compactitem}
+    \item Verwende Interne Repräsentation für Position der Landmarks und der Kameraparameter
+    \item Für jeden Frame (Bewege und schaue):
+    \begin{compactitem}
+        \item Sage hervor, um wieviel sich der Roboter bewegt hat
+        \item Halte neue Landmarks fest
+        \item Update die interne Repräsentation durch die Messunsicherheiten
+    \end{compactitem}
+    Wenn Roboter alten Landmark erkennt: Loop closing!
+\end{compactitem}
