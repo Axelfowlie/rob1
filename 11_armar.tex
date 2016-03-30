@@ -1,2 +1,109 @@
 % !TEX root = rob1.tex
 \chapter{ARMAR}
+
+ \section{Greifen}
+ \subsection{Offline Grasp Analyse}
+ \begin{compactitem}
+     \item Durchführbahre Griffe werden für jedes Objekt offline berechnet und
+     zusammen mit dem Objektmodell gespeichert
+     \item Griff ist definiert durch
+     \begin{compactitem}
+         \item Grasping Center Point des Objekts der mit dem TCP auf einer Linie
+         ist
+         \item Approach Vector, beschreibt den Winkel in dem die Hand den Greifpunkt
+         anfährt
+         \item Wrist Orientation
+         \item Initial Finger Configuration
+     \end{compactitem}
+ \end{compactitem}
+
+ \subsection{Objekt Klassen}
+ \subsubsection{Bekannte Objekte}
+ \begin{compactitem}
+     \item Objektgeometrie bekannt
+     \item Verwende bekannte Greifplanungsmethoden für bekannte Objekte
+     \item Hard
+ \end{compactitem}
+ \subsubsection{Verwandte Objekte}
+ \begin{compactitem}
+     \item Klasse des Objekts ist bekannt, z.B Flasche
+     \item Wiederverwendung von Greifwissen für bekannte Klassenmitglieder auf
+     neues Objekt
+     \item Harder
+ \end{compactitem}
+ \subsubsection{Unbekannte Objekte}
+ \begin{compactitem}
+     \item Kein Wissen über Objekt vorhanden
+     \item Herausforderung: Arbeiten mit (unvollständigen) Sensordaten (Stereovision,
+     RGB-D, Laser Scan, Haptische Daten...), Trennung/Segentierung vom Hintergrund und
+     Bau eines (Teil)Objektmodells
+     \item Hardest!
+ \end{compactitem}
+
+ \subsection{Grasping by parts / part-based grasping}
+ \begin{compactitem}
+     \item Idee ist Objekte in einfache Teile aufzulösen.
+     \item Plane Griffe für einzelne Segmente
+ \end{compactitem}
+ Forward-Ansatz der Planung
+ \begin{compactitem}
+     \item Führe Hand an Objekt bis Kollision
+     \item Schließe finger um Objekt bis Kollision
+     \item Evaluiere Kontakt von Hand und Objekt. Ist der Griff ,,force-closure''
+     oder nicht
+ \end{compactitem}
+
+
+ \section{Box Decomposition Algorithm}
+ \subsection{Von Punkten zu Boxen}
+ \begin{compactitem}
+     \item Nimm eine Punktwolke und bestimte Minimum Volume Bounding Box mit
+     $O(n log n + n/\epsilon^3)$
+     \item Es wird ein Aufspaltungs Kriterium benötigt, welches die haupt MVBB in
+     eine menge kleinere Boxen aufteilt, welche die Form detaillierter darstellen
+     \item Teile Form in semantische Teile auf z.B Kopf und Körper
+     \item Benutze Flächen, die parallel zur Eltern MVBB ist
+     \item Ein Split einer Parentbox ist besser, je weniger Volumen die resultierenden
+     Kinder beinhalten
+ \end{compactitem}
+
+\subsection{Von Boxen zu Griffen}
+\item Jede Box hat 6 Seiten welche ein Set von intuitiven Greifhypothesen liefern:
+Entlang dem Zentrum, oder entlang der Normale
+\item Die Facedimension kann benutzt werden, umm Greifhypothesen abzuweisen, die
+größer als die Handöffnung sind
+\item Für jede Seite kann ohne weiters 4 Hypothesen, welche sich in der Handorientierung
+unterscheiden, erzeugen
+\item Blockierte oder verdeckte Seiten können einfach ausgeschlossen werden durch
+geometrische Berechnungen
+
+\section{Medial Axis}
+\begin{compactitem}
+    \item Repräsentieren das topologische Skelet eines Objektes
+    \item Die Medial Axis ist eine Formapproximation eines Objekte mit Hilfe von
+     Sphären maximalen Durchmessers.
+    \item Sphären müssen die Geometrische Form von innen an min. 2 Punkten berühren
+    \item Medial Axsis ist als Vereinigung aller Sphärenzentren definiert
+
+\end{compactitem}
+\mparagraph{Vorteile}
+\begin{compactitem}
+    \item Gute Approximation der Objektgeometrie
+    \item Details bleiben erhalten
+    \item Symmetrische Eigenschaften eines Objektes können aus den Medial Axis
+    extrahiert werden
+    \item Einfach um Greifplanung zu evaluieren
+\end{compactitem}
+
+\subsection{Algorithmus zur identifizierung von Slices einer Medial Axis}
+\begin{compactenum}
+    \item Minimum Spanning Tree der Sphären Zentren in der Ebene
+    \item Lösche Kanten die länger sind als Schwellwert
+    \item Clustere die entstandenen Bäume und führe für jedes Cluster aus:
+    \begin{compactitem}
+        \item Bestimme Volumen der Konvexen Hülle
+        \item Bestimme Randpunkte der Konvexen Hülle
+        \item Bestimmte Zweigknoten (Knoten mit Anzahl Kanten > 2)
+        \item Bestimmte Zentrum der Gravity
+    \end{compactitem}
+\end{compactenum}
