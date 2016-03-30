@@ -1,2 +1,96 @@
 % !TEX root = rob1.tex
 \chapter{Bildverarbeitung}
+
+\section{Bildrepräsentation}
+\textbf{Ein Bild ist ein 2D Gitter von diskreten Punkten (Pixel)}
+
+\mparagraph{Koordinaten}
+\begin{compactitem}
+    \item $u$, horizontal
+    \item $v$, vertikal
+    \item Ursprung ist oben links
+\end{compactitem}
+
+
+\section{Farbmodelle}
+\mparagraph{Graustufenbild}
+Für jeden Pixel wird ein Helligkeitswert abgelegt. Normalerweise 1 Byte pro Pixel
+[0,255]
+
+\mparagraph{Monochrombild}
+Diskrete Funktion
+\begin{align}
+    &\text{IMG}:[0..n-1] \times [0..m-1] \rightarrow [0..q]
+    &(u,v) \rightarrow \text{Img}(u,v)
+\end{align}
+
+\mparagraph{Farbbild}
+Verschiedene Farbmodelle für unterschiedliche Anwendungen.
+\begin{compactitem}
+    \item RGB
+    \item HSI: geeignet für Farbsegmentierung
+    \item CIE: Physikalisch
+    \item CMYK: Substraktive Farbmischung
+    \item YIQ
+\end{compactitem}
+
+\subsection{RGB}
+\begin{compactitem}
+    \item Additive Farbmischung
+    \item Rot, Grün, Blau
+    \item RGB24: ein Pixel durch 3 Bytes dargestellt
+\end{compactitem}
+\subsection{HSI}
+\begin{compactitem}
+    \item Hue, Saturation und Intensity/Value
+    \item Trenning von Helligkeit vom Farbwert $\rightarrow$ unempfindlich gegen
+    Beleuchtungsänderungen
+    \item Umrechung RGB nach HSI
+    \begin{compactitem}
+        \item H undefiniert falls R = G = B
+        \item S undefiniert falls R = G = B = 0
+    \end{compactitem}
+\end{compactitem}
+\begin{align}
+    H &= \begin{cases} \Theta, \text{ falls } B < G \\ 360 - \Theta, \text{ sonst}
+        \end{cases} \\
+    \Theta &= \arccos\frac{2R-G-B}{2\sqrt{(R-G)^2 + (R+B)(G-B)}} \\
+    S &= 1 - \frac{3}{R + G + B}\min(R,G,B) \\
+    I &= \frac{1}{3}(R+G+B)
+\end{align}
+
+\section{Lochkamera}
+Projektion eines Szenenpunkt $(x,y,z)$ auf einen Bildpunkt $(u,v)$
+\begin{align}
+    \begin{pmatrix}u \\ v \end{pmatrix} &= \frac{f}{z} \begin{pmatrix} x \\ y \end{pmatrix} \\
+    \begin{pmatrix}x \\ y \end{pmatrix} &= \frac{z}{f} \begin{pmatrix}u \\ v \end{pmatrix}
+\end{align}
+
+\section{Filteroperationen}
+\subsection{Tiefpassfilter}
+\textbf{Glättung, Rauschelimination}
+\subsubsection{Mittelwertfilter}
+\begin{displaymath}
+     \begin{pmatrix}
+         \frac{1}{9} & \frac{1}{9} & \frac{1}{9} \\
+         \frac{1}{9} & \frac{1}{9} & \frac{1}{9} \\
+         \frac{1}{9} & \frac{1}{9} & \frac{1}{9}
+     \end{pmatrix}
+\end{displaymath}
+\subsubsection{Gauss Filter}
+Ortsbereich: $ f(x,y) = \frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}$\\
+Frequenzbereich:$ F(u,v) = e^{-\frac{u^2+v^2}{2}\sigma^2} $\\
+Approximation von f(x) durch 3x3 Filter mit $\sigma = 0.85$
+\begin{displaymath}
+     F_\text{Gauss} = \frac{1}{16} \begin{pmatrix}
+         1 & 2 & 1 \\ 2&4&2\\1&2&1
+ \end{pmatrix}
+\end{displaymath}
+\subsection{Hochpassfilter}
+\textbf{Kantendetektion}
+
+\subsubsection{Prewitt}
+\subsubsection{Sobel}
+\subsubsection{Laplace}
+\subsubsection{Roberts}
+\subsection{Kombinierte Operatoren}
