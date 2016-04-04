@@ -155,8 +155,10 @@ Registrierung zweier 3D Punktwolken und minimiert Distanz zwischen ihnen
         $D_k = \sum_i || a_i - T_k \cdot b_i || ^2$
     \end{compactitem}
     \item $D_k$ kombiniert Translation und Rotation
-    \item Wende Transformatin $T_k$ auf alle Punkte aus B an
-    \item Abbrichkriterium: Schwellwert für $D_{k-1}-D_k$ oder max. Iterationen erreicht.
+    \item Wende Transformation $T_k$ auf alle Punkte aus B an
+    \item Abbruchkriterium: Schwellwert für $D_{k-1}-D_k$ oder max. Iterationen erreicht.
+\end{compactenum}
+\begin{compactitem}
     \item \textbf{Vorteile}:
     \begin{compactitem}
         \item Algorithmus für Punkte, Normalenvektoren und andere Darstellungsformen
@@ -165,11 +167,14 @@ Registrierung zweier 3D Punktwolken und minimiert Distanz zwischen ihnen
         \item Schnelles Registrierungsergebnis
     \end{compactitem}
     \item \textbf{Nachteile}:
-    \item Symmetrische Objekte können nicht ohne wieteres registriert werden
+    \begin{compactitem}
+
+    \item Symmetrische Objekte können nicht ohne weiteres registriert werden
     \item Konvergenz in ein lokales Minimum möglich
     \item Überlappung der Punktwolken erforderlich
-\end{compactenum}
+\end{compactitem}
 
+\end{compactitem}
 \section{Random Sample Consensus, RANSAC}
 \begin{compactitem}
     \item \textbf{RANSAC ist ein nicht deterministischer Algorithmus. Ist eine iterative
@@ -178,7 +183,7 @@ Registrierung zweier 3D Punktwolken und minimiert Distanz zwischen ihnen
     \item Anwendung in  Bildverarbeitung
     \begin{compactitem}
         \item Schätzung von Lininen in 2D Bildern
-        \item Schätzung vno Ebenen und anderen Primitiven in 3D Punktwolken
+        \item Schätzung von Ebenen und anderen Primitiven in 3D Punktwolken
     \end{compactitem}
     \item \textbf{Vorteile}:
     \begin{compactitem}
